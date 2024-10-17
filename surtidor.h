@@ -1,32 +1,114 @@
+/*
 #ifndef SURTIDOR_H
 #define SURTIDOR_H
+
 #include <iostream>
+#include <string>
+#include <unordered_set>
+#include <vector> // Añadir para el historial
+#include <ctime> // Para registrar fecha y hora
+
 using namespace std;
 
-/////FALTA ASIGNAR LOS SETTERS Y GETTERS, DESTRUCTORS TAMBIÉN//////
-
-class surtidor
-{
-private: //Atributos
+class surtidor {
+private:
     int codigo;
     string modelo;
-    float litros_vendidos;
+    float litros_vendidos_tipo1, litros_vendidos_tipo2, litros_vendidos_tipo3;
     float dinero_recolectado;
-    float precio_tipo1;
-    float precio_tipo_2;
-    float precio_tipo3;
-    float reservac_tipo1; //Combustible regular
-    float reservac_tipo2; //Combustible Premium
-    float reservac_tipo3; //Combustible EcoExtra
-public: //Métodos
-    surtidor();
-    void act_reservas(); //Actualiza la cantidad de combustible por reserva y según el tipo.
-    void calc_litros_v(); //Calcula la cantidad de litros vendidos.
-    void modelo_s(); //Establece el modelo del surtidor de la forma: AKL-0001-963D.
-    void codigo_s(); //Genera el código de la estación: 7458.
-    void estbl_precios(); //Establece los precios de los combustibles por tipo.
+    float precio_tipo1, precio_tipo2, precio_tipo3;
+    float reservac_tipo1, reservac_tipo2, reservac_tipo3;
 
+    // Historial de transacciones
+    vector<string> historial_transacciones; // Agregado
 
+public:
+    surtidor(); // Constructor
+
+    void act_reservas(float venta_actual, int tipo_combustible); // Actualizar reservas
+    void modelo_s(); // Establecer modelo
+    void codigo_s(); // Generar código
+    void estbl_precios(); // Establecer precios
+    void calc_litros_v(); // Calcular litros vendidos
+
+    // Métodos para establecer y obtener litros vendidos
+    void set_litros_vendidos_tipo1(float litros);
+    void set_litros_vendidos_tipo2(float litros);
+    void set_litros_vendidos_tipo3(float litros);
+    float get_litros_vendidos_tipo1() const;
+    float get_litros_vendidos_tipo2() const;
+    float get_litros_vendidos_tipo3() const;
+
+    // Nuevo método para consultar el historial de transacciones
+    void consultar_historico() const; // Agregado
+    void simular_venta(float cantidad, int tipo_combustible, const string& metodo_pago, const string& documento_cliente);
 };
+
+// Declaración de la plantilla para establecer los precios
+template <typename T>
+void establecer_precio(T& precio);
+
+#endif // SURTIDOR_H
+
+*/
+#ifndef SURTIDOR_H
+
+#define SURTIDOR_H
+
+#include <iostream>
+#include <string>
+#include <unordered_set>
+#include <vector> // Añadir para el historial
+#include <ctime> // Para registrar fecha y hora
+
+using namespace std;
+
+class surtidor {
+
+private:
+    int codigo;
+    string modelo;
+    float litros_vendidos_tipo1, litros_vendidos_tipo2, litros_vendidos_tipo3;
+    float dinero_recolectado;
+    float precio_tipo1, precio_tipo2, precio_tipo3;
+    float reservac_tipo1, reservac_tipo2, reservac_tipo3;
+    bool estado_activo;
+
+    // Historial de transacciones
+    vector<string> historial_transacciones; // Agregado
+
+public:
+    surtidor(); // Constructor
+
+    void act_reservas(float venta_actual, int tipo_combustible); // Actualizar reservas
+    void modelo_s(); // Establecer modelo
+    void codigo_s(); // Generar código
+
+    // Getter para el código
+    int get_codigo() const; // Agregado
+
+    //void estbl_precios(); // Establecer precios
+    void calc_litros_v(); // Calcular litros vendidos
+
+    // Métodos para establecer y obtener litros vendidos
+    void set_litros_vendidos_tipo1(float litros);
+    void set_litros_vendidos_tipo2(float litros);
+    void set_litros_vendidos_tipo3(float litros);
+    float get_litros_vendidos_tipo1() const;
+    float get_litros_vendidos_tipo2() const;
+    float get_litros_vendidos_tipo3() const;
+    void activar() { estado_activo = true; }
+    void desactivar() { estado_activo = false; }
+
+    // Método para verificar si el surtidor está activo
+    bool esta_activo() const { return estado_activo; }
+    // Nuevo método para consultar el historial de transacciones
+    void consultar_historico() const; // Agregado
+    void simular_venta(float cantidad, int tipo_combustible, const string& metodo_pago, const string& documento_cliente);
+};
+
+// Declaración de la plantilla para establecer los precios
+template <typename T>
+void establecer_precio(T& precio);
 
 #endif // SURTIDOR_H
